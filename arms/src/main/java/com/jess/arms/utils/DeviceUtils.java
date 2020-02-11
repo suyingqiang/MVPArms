@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 JessYan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.jess.arms.utils;
 
 import android.annotation.TargetApi;
@@ -33,13 +48,21 @@ import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.util.List;
 
+/**
+ * ================================================
+ * 获取设备常用信息和处理设备常用操作的工具类
+ * <p>
+ * Created by JessYan on 2016/3/15
+ * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
+ * <a href="https://github.com/JessYanCoding">Follow me</a>
+ * ================================================
+ */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class DeviceUtils {
     // 手机网络类型
     public static final int NETTYPE_WIFI = 0x01;
     public static final int NETTYPE_CMWAP = 0x02;
     public static final int NETTYPE_CMNET = 0x03;
-
     public static boolean GTE_HC;
     public static boolean GTE_ICS;
     public static boolean PRE_HC;
@@ -55,7 +78,8 @@ public class DeviceUtils {
         PRE_HC = Build.VERSION.SDK_INT < 11;
     }
 
-    public DeviceUtils() {
+    private DeviceUtils() {
+        throw new IllegalStateException("you can't instantiate me!");
     }
 
     /**
@@ -188,7 +212,6 @@ public class DeviceUtils {
         return 0;
     }
 
-
     public static boolean hasBigScreen(Context context) {
         boolean flag = true;
         if (_hasBigScreen == null) {
@@ -257,7 +280,7 @@ public class DeviceUtils {
      */
     public static boolean hasInternet(Context context) {
         boolean flag;
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (manager != null && manager.getActiveNetworkInfo() != null)
             flag = true;
         else
@@ -346,7 +369,6 @@ public class DeviceUtils {
         return _isTablet.booleanValue();
     }
 
-
     public static void showAnimatedView(View view) {
         if (PRE_HC && view != null)
             view.setPadding(0, 0, 0, 0);
@@ -407,7 +429,6 @@ public class DeviceUtils {
         str = nf.format(p3);
         return str;
     }
-
 
     public static boolean isHaveMarket(Context context) {
         Intent intent = new Intent();
@@ -611,7 +632,7 @@ public class DeviceUtils {
      */
     public static boolean isWifiOpen(Context context) {
         boolean isWifiConnect = false;
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         // check the networkInfos numbers
         NetworkInfo[] networkInfos = cm.getAllNetworkInfo();
         for (int i = 0; i < networkInfos.length; i++) {
@@ -694,7 +715,6 @@ public class DeviceUtils {
         return sbar;
     }
 
-
     public static boolean hasStatusBar(Activity activity) {
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         if ((attrs.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
@@ -727,7 +747,7 @@ public class DeviceUtils {
      */
     public static int getNetworkType(Context context) {
         int netType = 0;
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             return netType;
@@ -736,7 +756,7 @@ public class DeviceUtils {
         if (nType == ConnectivityManager.TYPE_MOBILE) {
             String extraInfo = networkInfo.getExtraInfo();
             if (extraInfo != null && !extraInfo.isEmpty()) {
-                if (extraInfo.toLowerCase().equals("cmnet")) {
+                if (extraInfo.equalsIgnoreCase("cmnet")) {
                     netType = NETTYPE_CMNET;
                 } else {
                     netType = NETTYPE_CMWAP;
@@ -749,7 +769,7 @@ public class DeviceUtils {
     }
 
     public static boolean netIsConnected(Context context) {
-        ConnectivityManager connectMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectMgr = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         //手机网络连接状态
         NetworkInfo mobNetInfo = connectMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         //WIFI连接状态
@@ -773,8 +793,6 @@ public class DeviceUtils {
         else
             return false;
     }
-
-
 }
 
 

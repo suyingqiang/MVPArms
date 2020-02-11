@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2015 Fernando Cejas Open Source Project
+/*
+ * Copyright 2017 JessYan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.jess.arms.di.scope;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 
 import javax.inject.Scope;
@@ -27,5 +28,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * correct component.
  */
 @Scope
+@Documented
 @Retention(RUNTIME)
 public @interface ActivityScope {}
